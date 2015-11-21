@@ -1,5 +1,11 @@
 <?php
 
+	// include Twitter Oauth Library
+	require_once 'library/twitteroauth.php';
+	
+	// include config files
+	require_once 'includes/config.php';
+
 	// include Slim
 	require 'Slim/Slim.php';
 	\Slim\Slim::registerAutoloader();
