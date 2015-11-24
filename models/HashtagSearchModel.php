@@ -29,7 +29,7 @@ class HashtagSearchModel {
 		 * {"errors":[{"message":"Could not authenticate you","code":32}]}
 		 * {"errors":[{"message":"Rate limit exceeded","code":88}]}
 		 */
-		if ( $tweets->errors ) {
+		if ( isset($tweets->errors) ) {
 			$this->error_status = true;
 		}
 

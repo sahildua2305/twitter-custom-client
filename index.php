@@ -30,7 +30,7 @@
 	/** Functions */
 
 	function showCustservTweets(){
-
+		
 		global $app;
 
 		// hard-code the hashtag for this sample app, can be taken from user
@@ -54,6 +54,8 @@
 
 			// get object of matched tweets
 			$all_tweets = $hashtag_search->getTweets();
+
+			// print_r($all_tweets);
 
 			// render the view and send the matched tweets object
 			$app->render (
