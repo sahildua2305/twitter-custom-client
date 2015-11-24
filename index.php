@@ -4,7 +4,10 @@
 	require_once 'library/twitteroauth.php';
 	
 	// include config files
-	require_once 'includes/config.php';
+	require_once 'includes/twitter-config.php';
+
+	// include all models
+	require_once 'models/HashtagSearchModel.php';
 
 	// include Slim
 	require 'Slim/Slim.php';
@@ -20,9 +23,48 @@
 	$app->config('debug', true);
 
 	/** Routes */
+	$app->map('/', 'showCustservTweets')->via('GET');
 
+	$app->run();
 
 	/** Functions */
 
+	function showCustservTweets(){
+
+		global $app;
+
+		// hard-code the hashtag for this sample app, can be taken from user
+		$hashtag = 'custserv';
+
+		// instantiate new hashtagsearch with the given hashtag
+		$hashtag_search = new HashtagSearchModel($hashtag);
+
+		if( $hashtag_search->getErrorStatus() ){
+			
+			// render the view and send the error code along with blank response for tweets
+			$app->render (
+				'show-tweets.php',
+				array( 'error' => true,
+					'tweets' => ""),
+				400
+			);
+			
+		}
+		else {
+
+			// get object of matched tweets
+			$all_tweets = $hashtag_search->getTweets();
+
+			// render the view and send the matched tweets object
+			$app->render (
+				'show-tweets.php',
+				array( 'error' => false,
+					'tweets' => $all_tweets),
+				200
+			);
+
+		}
+
+	}
 
 ?>
