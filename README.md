@@ -26,3 +26,4 @@ A simple Twitter API client that fetches and displays tweets that<br>
 * Add configurable search terms support
 * Write tests for HashtagSearch model
 
+Feel free to contact me via [email](http://scr.im/sahildua)
