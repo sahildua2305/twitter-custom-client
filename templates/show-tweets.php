@@ -5,6 +5,7 @@
 	echo '<pre>';
 	print_r($tweets);
 	echo '</pre>';
+
 ?>
 
 
@@ -12,7 +13,7 @@
 	<div class="visibile-lg" style="margin: 5% 0;"></div>
 	<div class="container text-center">
 		<img class="image-head" src="img/3be2c501646a37b5de1f6381df25a4dd.png">
-		<div><p style="font-family: 'Poiret One', cursive;">Showing tweets for #custserv with atleast one retweet</p></div>
+		<div><p style="font-family: 'Poiret One', cursive;">Showing recent tweets for #custserv with atleast one retweet</p></div>
 		<div class="row">
 			<div class="col-md-8 col-md-offset-2">
 				<div id="instant_results">
@@ -43,12 +44,6 @@
 
 					?>
 				</div>
-			</div>
-		</div>
-		<div class="row">
-			<div class="col-md-4 col-md-offset-4">
-				<button class="btn btn-primary" id="previous" disabled></button>
-				<button class="btn btn-primary" id="next"></button>
 			</div>
 		</div>
 	</div>

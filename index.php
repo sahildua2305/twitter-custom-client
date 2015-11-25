@@ -1,7 +1,7 @@
 <?php
 
 	// include Twitter Oauth Library
-	require_once 'library/twitteroauth.php';
+	require_once 'includes/library/twitteroauth.php';
 	
 	// include config files
 	require_once 'includes/twitter-config.php';
@@ -30,7 +30,7 @@
 	/** Functions */
 
 	function showCustservTweets(){
-		
+
 		global $app;
 
 		// hard-code the hashtag for this sample app, can be taken from user
