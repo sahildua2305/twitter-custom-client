@@ -16,13 +16,22 @@ class HashtagSearchModel {
 	 * 
 	 * @param $hashtag, Hashtag for which tweets are to be searched on Twitter
 	 */
-	function __construct($hashtag = NULL){
+	function __construct($hashtag = NULL, $max_id = NULL){
 
 		// opening an oauth connection to Twitter API
 		$api_connection = new TwitterOAuth( CONSUMER_KEY, CONSUMER_SECRET, ACCESS_TOKEN, ACCESS_TOKEN_SECRET );
 
+		// form the API endpoint URL with required parameters
+		$api_url = 'https://api.twitter.com/1.1/search/tweets.json?q=' . urlencode( '#' . $hashtag ) . '&result_type=recent&count=100';
+
+		// if max_id is passed while instantiating the object,
+		// include that in the API endpoint URL
+		if( $max_id != NULL ){
+			$api_url .= ( '&max_id=' . $max_id );
+		}
+
 		// making API call on search endpoint along with the given hashtag
-		$tweets = $api_connection->get( 'https://api.twitter.com/1.1/search/tweets.json?q=' . urlencode( '#' . $hashtag ) . '&result_type=recent&count=100');
+		$tweets = $api_connection->get( $api_url );
 
 		/**
 		 * Enable error-checking when this kind of response is returned

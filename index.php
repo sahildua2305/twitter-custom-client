@@ -24,6 +24,7 @@
 
 	/** Routes */
 	$app->map('/', 'showCustservTweets')->via('GET');
+	$app->map('/get-more-tweets/:max_id', 'getMoreTweets')->via('GET');
 
 	$app->run();
 
@@ -66,6 +67,35 @@
 			);
 
 		}
+
+	}
+
+	/**
+	 * getMoreTweets() - function catering to '/get-more-tweets/:max_id'
+	 * used for getting more tweets from Twitter API (with a max_id)
+	 * 
+	 * @param  $max_id, Max ID before which tweets are to be fetched
+	 * @return JSON encoded output containing more tweetsbefore the tweet with given max_id
+	 */
+	function getMoreTweets($max_id = NULL){
+
+		/**
+		 * Error Handling - if no max_id is passed with this request
+		 */
+		if( !max_id ){
+			echo json_encode( array( 'status' => 400, 'html' => 'Invalid request parameters') );
+			return;
+		}
+
+		global $app;
+
+		// hard-code the hashtag for this sample app, can be taken from user
+		$hashtag = 'custserv';		
+
+		// instantiate new hashtagsearch with the given hashtag
+		$hashtag_search = new HashtagSearchModel($hashtag, $max_id);
+
+		
 
 	}
 
