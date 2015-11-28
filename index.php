@@ -24,7 +24,7 @@
 
 	/** Routes */
 	$app->map('/', 'showCustservTweets')->via('GET');
-	$app->map('/get-more-tweets/:max_id', 'getMoreTweets')->via('POST');
+	$app->map('/get-more-tweets', 'getMoreTweets')->via('GET');
 
 	$app->run();
 

@@ -22,20 +22,16 @@ $(document).ready(function(){
 	$(window).scroll(function(){
 		
 		if( !ajax_call_sent && $(window).scrollTop() + $(window).height() == getDocHeight() ) {
-			
-			console.log("bottom");
 
 			// Proceed with Ajax request only if #next_results_hidden element is present
 			if( $('#next_results_hidden').length ){
 				
 				// fetch max_id from the hidden input
 				var next_results = $('#next_results_hidden').val();
-				console.log(next_results);
 
 				// setting flag to set debounce time for next ajax call
 				ajax_call_sent = true;
 
-				var max_id = 122333;
 				var encoded_data = {};
 				encoded_data.next_results = next_results;
 
@@ -43,9 +39,9 @@ $(document).ready(function(){
 				$('.loader_gif').html('<img src="https://gadgets360.com/shop/static/web/images/loading_icon_small.gif">');
 
 				jQuery.ajax({
-					type: "POST",
-					url: "/index.php/get-more-tweets/" + max_id,
-					data: encoded_data,
+					type: "GET",
+					url: "/index.php/get-more-tweets",
+					data: { next_results : next_results },
 					cache: false,
 
 					/**
@@ -53,9 +49,7 @@ $(document).ready(function(){
 					 * @param  response, Response received from the AJAX request
 					 * @return Appends the new tweets fetched from this AJAX call
 					 */
-					success: function(response){
-
-						console.log(response);
+					success: function( response ) {
 
 						// hide loading image
 						$('.loader_gif').html('');
@@ -85,9 +79,7 @@ $(document).ready(function(){
 					/**
 					 * error() - callback function if there is an error in AJAX request
 					 */
-					error: function(){
-
-						console.log("error");
+					error: function() {
 
 						// hide loading image, and show error text
 						$('.loader_gif').html('<p>Error fetching tweets. Please try again.</p>');
