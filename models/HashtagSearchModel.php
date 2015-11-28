@@ -7,7 +7,7 @@
  */
 class HashtagSearchModel {
 
-	private $matched_tweets = NULL;
+	private $t_response = NULL;
 	private $error_status   = false;
 
 	/**
@@ -22,7 +22,7 @@ class HashtagSearchModel {
 		$api_connection = new TwitterOAuth( CONSUMER_KEY, CONSUMER_SECRET, ACCESS_TOKEN, ACCESS_TOKEN_SECRET );
 
 		// form the API endpoint URL with required parameters
-		$api_url = 'https://api.twitter.com/1.1/search/tweets.json?q=' . urlencode( '#' . $hashtag ) . '&result_type=recent&count=100';
+		$api_url = 'https://api.twitter.com/1.1/search/tweets.json?q=' . urlencode( '#' . $hashtag ) . '&include_entities=false&result_type=recent&count=100';
 
 		// if max_id is passed while instantiating the object,
 		// include that in the API endpoint URL
@@ -38,11 +38,11 @@ class HashtagSearchModel {
 		 * {"errors":[{"message":"Could not authenticate you","code":32}]}
 		 * {"errors":[{"message":"Rate limit exceeded","code":88}]}
 		 */
-		if ( isset($tweets->errors) ) {
+		if ( isset($tweets->errors) || !isset($tweets->statuses) ) {
 			$this->error_status = true;
 		}
 
-		$this->matched_tweets = $tweets;
+		$this->t_response = $tweets;
 
 	}
 
@@ -61,7 +61,7 @@ class HashtagSearchModel {
 	 * @return object, Twitter tweets response object is returned directly
 	 */
 	public function getTweets(){
-		return $this->matched_tweets;
+		return $this->t_response;
 	}
 
 }

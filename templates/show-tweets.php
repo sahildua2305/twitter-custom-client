@@ -3,7 +3,7 @@
 	include 'header.php';
 
 	echo '<pre>';
-	print_r($tweets);
+	print_r($t_response);
 	echo '</pre>';
 
 ?>
@@ -19,9 +19,12 @@
 				<div id="instant_results">
 					<?php
 
-						if ( !$error ) {	// if the error is set to false
+						/**
+						 * ERROR HANDLING
+						 */
+						if ( !$error && isset($t_response->statuses) ) {
 						
-							$tweets = $tweets->statuses;
+							$tweets = $t_response->statuses;
 
 							foreach($tweets as $tweet){
 								// TRICKY: Change the condition to this, if you don't want to display retweets/quoted tweets
@@ -40,10 +43,29 @@
 								echo "</div>";
 							}
 
+							/**
+							 * If Search Metadata is present in Twitter API response,
+							 * save the max_id in a hidden input field
+							 */
+							if( isset($t_response->search_metadata) && isset($t_response->search_metadata->max_id) ){
+								echo "<input type='hidden' value='" . $t_response->search_metadata->max_id . "' id='max_id_hidden' />";
+							}
+
+						}
+						else{
+
+							echo "<h2> Sorry, we encountered a problem in fetching the tweets. Please try again in some time. </h2>";
+
 						}
 
 					?>
 				</div>
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="col-md-4 col-md-offset-4 loader_gif">
+
 			</div>
 		</div>
 	</div>

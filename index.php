@@ -46,8 +46,8 @@
 			$app->render (
 				'show-tweets.php',
 				array( 'error' => true,
-					'tweets' => ""),
-				400
+					't_response' => ""),
+				403
 			);
 			
 		}
@@ -62,7 +62,7 @@
 			$app->render (
 				'show-tweets.php',
 				array( 'error' => false,
-					'tweets' => $all_tweets),
+					't_response' => $all_tweets),
 				200
 			);
 
@@ -82,7 +82,7 @@
 		/**
 		 * Error Handling - if no max_id is passed with this request
 		 */
-		if( !max_id ){
+		if( $max_id == NULL ){
 			echo json_encode( array( 'status' => 400, 'html' => 'Invalid request parameters') );
 			return;
 		}
@@ -95,7 +95,52 @@
 		// instantiate new hashtagsearch with the given hashtag
 		$hashtag_search = new HashtagSearchModel($hashtag, $max_id);
 
-		
+		// get Twitter response from the model
+		$t_response = $hashtag_search->getTweets();
+
+		/**
+		 * ERROR HANDLING
+		 */
+		if( isset($t_response->statuses) ){
+
+			$tweets = $t_response->statuses;
+
+			// Appending new tweets to the html response
+			$html = '';
+			foreach($tweets as $a){
+				// TRICKY: Change the condition to this, if you don't want to display retweets/quoted tweets
+				// if ( $a->retweet_count == 0 || isset($a->retweeted_status) || isset($tweet->quoted_status))
+				if ( $a->retweet_count == 0){
+					continue;	// skip this tweet
+				}
+				$html .= "<div class='timeline-tweets'>";
+				$html .="<img src='".$a->user->profile_image_url."' class='img-thumbnail timeline' width='50'>";
+				$html .="<p><a href='http://twitter.com/intent/user?screen_name=".$a->user->screen_name."' target='_blank'>".($a->user->name)." <span class='text-muted'>@".$a->user->screen_name."</span></a></p>";
+				$html .=($a->text)."<br>";
+				$html .="<span class='text-muted small'>".date("g:i: A D, F jS Y",strtotime($a->created_at))."</span>";
+				$html .="<p class='tweet-controls'>";
+				$html .="<a href='https://twitter.com/intent/tweet?in_reply_to=".$a->id_str."' target='_blank'> Reply</a>  |  <a href='https://twitter.com/intent/favorite?tweet_id=".$a->id_str."' target='_blank'>Favorite</a>  |  <a href='https://twitter.com/intent/retweet?tweet_id=".$a->id_str."' target='_blank'>Retweet</a>";
+				$html .="</p>";
+				$html .="</div>";
+
+			}
+
+			// fetching new max_id
+			$new_max_id = $t_response->search_metadata->max_id;
+
+			echo json_encode( array('status' => 200,
+									'html' => $html,
+									'response' => $t_response,
+									'new_max_id' => $new_max_id));
+		}
+		else{
+
+			echo json_encode( array('status' => 400,
+									'html' => '',
+									'response' => $t_response,
+									'new_max_id' => -1));
+
+		}
 
 	}
 
