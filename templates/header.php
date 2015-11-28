@@ -4,7 +4,7 @@
 	<title>Twitter Custom Client</title>
 	<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 	<meta name="description" content="A simple Twitter API client that fetches and displays tweets that have been retweeted at least once and contain the hashtag `#custserv`">
-	<meta name="keywords" content="">
+	<meta name="keywords" content="Twitter, Twitter API, Twitter Client, Custom Client, Custom PHP client, PHP, JS, PHP client, PHP Twitter Client">
 	<meta name="author" content="Sahil Dua">
 	
 	<!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css"/> -->
