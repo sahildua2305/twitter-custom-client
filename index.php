@@ -30,6 +30,11 @@
 
 	/** Functions */
 
+	/**
+	 * showCustservTweets() - function catering to route '/'
+	 * 
+	 * @return renders template `show-tweets.php` with the fetched tweets
+	 */
 	function showCustservTweets(){
 
 		global $app;
@@ -128,12 +133,11 @@
 
 			}
 
-			// fetching new max_id
+			// fetching new `next_results`
 			$new_next_results = $t_response->search_metadata->next_results;
 
 			echo json_encode( array('status' => 200,
 									'html' => $html,
-									'response' => $t_response,
 									'old_next_results' => $next_results,
 									'new_next_results' => $new_next_results));
 		}
@@ -141,7 +145,6 @@
 
 			echo json_encode( array('status' => 400,
 									'html' => '',
-									'response' => $t_response,
 									'old_next_results' => $next_results,
 									'new_next_results' => $next_results));
 

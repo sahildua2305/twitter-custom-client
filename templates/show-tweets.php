@@ -4,7 +4,6 @@
 
 ?>
 
-
 <body class="container">
 	<div class="visibile-lg" style="margin: 5% 0;"></div>
 	<div class="container text-center">
