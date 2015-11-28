@@ -31,18 +31,18 @@ class HashtagSearchModel {
 		}
 
 		// making API call on search endpoint along with the given hashtag
-		$tweets = $api_connection->get( $api_url );
+		$response = $api_connection->get( $api_url );
 
 		/**
 		 * Enable error-checking when this kind of response is returned
 		 * {"errors":[{"message":"Could not authenticate you","code":32}]}
 		 * {"errors":[{"message":"Rate limit exceeded","code":88}]}
 		 */
-		if ( isset($tweets->errors) || !isset($tweets->statuses) ) {
+		if ( isset($response->errors) || !isset($response->statuses) ) {
 			$this->error_status = true;
 		}
 
-		$this->t_response = $tweets;
+		$this->t_response = $response;
 
 	}
 
