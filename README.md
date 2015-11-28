@@ -23,7 +23,6 @@ A simple Twitter API client that fetches and displays tweets that<br>
 ## Possible Improvements
 
 * Use MemCache or Redis to cache the tweets in order to save API calls
-* Enable lazy loading of tweets
 * Add configurable search terms support
 * Write tests for HashtagSearch model
 

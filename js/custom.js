@@ -40,7 +40,7 @@ $(document).ready(function(){
 
 				jQuery.ajax({
 					type: "GET",
-					url: "/index.php/get-more-tweets",
+					url: "index.php/get-more-tweets",
 					data: { next_results : next_results },
 					cache: false,
 
