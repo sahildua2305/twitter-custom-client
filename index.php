@@ -24,7 +24,7 @@
 
 	/** Routes */
 	$app->map('/', 'showCustservTweets')->via('GET');
-	$app->map('/get-more-tweets/:max_id', 'getMoreTweets')->via('GET');
+	$app->map('/get-more-tweets/:max_id', 'getMoreTweets')->via('POST');
 
 	$app->run();
 
@@ -80,20 +80,23 @@
 	function getMoreTweets($max_id = NULL){
 
 		/**
-		 * Error Handling - if no max_id is passed with this request
+		 * Error Handling - if no next_results parameter is passed with this request
 		 */
-		if( $max_id == NULL ){
+		if( !isset($_REQUEST['next_results']) || $_REQUEST['next_results'] == NULL ){
 			echo json_encode( array( 'status' => 400, 'html' => 'Invalid request parameters') );
 			return;
 		}
 
 		global $app;
 
+		// retrieve the request parameters for the GET request
+		$next_results = $_REQUEST['next_results'];
+
 		// hard-code the hashtag for this sample app, can be taken from user
-		$hashtag = 'custserv';		
+		$hashtag = 'custserv';
 
 		// instantiate new hashtagsearch with the given hashtag
-		$hashtag_search = new HashtagSearchModel($hashtag, $max_id);
+		$hashtag_search = new HashtagSearchModel($hashtag, $next_results);
 
 		// get Twitter response from the model
 		$t_response = $hashtag_search->getTweets();
@@ -126,19 +129,21 @@
 			}
 
 			// fetching new max_id
-			$new_max_id = $t_response->search_metadata->max_id;
+			$new_next_results = $t_response->search_metadata->next_results;
 
 			echo json_encode( array('status' => 200,
 									'html' => $html,
 									'response' => $t_response,
-									'new_max_id' => $new_max_id));
+									'old_next_results' => $next_results,
+									'new_next_results' => $new_next_results));
 		}
 		else{
 
 			echo json_encode( array('status' => 400,
 									'html' => '',
 									'response' => $t_response,
-									'new_max_id' => -1));
+									'old_next_results' => $next_results,
+									'new_next_results' => $next_results));
 
 		}
 

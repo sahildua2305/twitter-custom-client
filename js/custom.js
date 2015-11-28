@@ -25,22 +25,27 @@ $(document).ready(function(){
 			
 			console.log("bottom");
 
-			// Proceed with Ajax request only if #max_id_hidden element is present
-			if( $('#max_id_hidden').length ){
+			// Proceed with Ajax request only if #next_results_hidden element is present
+			if( $('#next_results_hidden').length ){
 				
 				// fetch max_id from the hidden input
-				var max_id = $('#max_id_hidden').val();
-				console.log(max_id);
-
-				// show the loading image
-				$('.loader_gif').html('<img src="https://gadgets360.com/shop/static/web/images/loading_icon_small.gif">');
+				var next_results = $('#next_results_hidden').val();
+				console.log(next_results);
 
 				// setting flag to set debounce time for next ajax call
 				ajax_call_sent = true;
 
-				$.ajax({
-					type: "GET",
+				var max_id = 122333;
+				var encoded_data = {};
+				encoded_data.next_results = next_results;
+
+				// show the loading image
+				$('.loader_gif').html('<img src="https://gadgets360.com/shop/static/web/images/loading_icon_small.gif">');
+
+				jQuery.ajax({
+					type: "POST",
 					url: "/index.php/get-more-tweets/" + max_id,
+					data: encoded_data,
 					cache: false,
 
 					/**
@@ -49,8 +54,8 @@ $(document).ready(function(){
 					 * @return Appends the new tweets fetched from this AJAX call
 					 */
 					success: function(response){
-						
-						console.log("success");
+
+						console.log(response);
 
 						// hide loading image
 						$('.loader_gif').html('');
@@ -63,13 +68,13 @@ $(document).ready(function(){
 							$('#instant_results').append( data["html"] );
 
 							// put new max_id into the same hidden field
-							$('#max_id_hidden').val( data["new_max_id"] );
-							
+							$('#next_results_hidden').val( data["new_next_results"] );
+
 						}
 						else if( data["status"] == 400 ){
 
 							// show error text
-							$('.loader_gif').html('<p>Error fetching older tweets. Please try again.</p>');
+							$('.loader_gif').html('<p>Error fetching tweets. Please try again.</p>');
 
 						}
 
@@ -85,12 +90,18 @@ $(document).ready(function(){
 						console.log("error");
 
 						// hide loading image, and show error text
-						$('.loader_gif').html('<p>Error fetching older tweets. Please try again.</p>');
+						$('.loader_gif').html('<p>Error fetching tweets. Please try again.</p>');
 
 						// unset the flag to let the dom call another ajax call when reached bottom
 						ajax_call_sent = false;
 					}
 				});
+
+			}
+			else{
+
+				// hide loading image, and show error text
+				$('.loader_gif').html('<p>Error fetching tweets. Please try again.</p>');
 
 			}
 

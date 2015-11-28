@@ -9,6 +9,7 @@ A simple Twitter API client that fetches and displays tweets that<br>
 * Built on the top of [SLIM framework](http://www.slimframework.com/)
 * MVC Architecture based
 * Easy to extend
+* Infinite scroll feature (for older tweets)
 * Supports powerful templating
 
 ##Installation

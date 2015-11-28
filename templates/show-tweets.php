@@ -2,10 +2,6 @@
 	
 	include 'header.php';
 
-	echo '<pre>';
-	print_r($t_response);
-	echo '</pre>';
-
 ?>
 
 
@@ -47,8 +43,8 @@
 							 * If Search Metadata is present in Twitter API response,
 							 * save the max_id in a hidden input field
 							 */
-							if( isset($t_response->search_metadata) && isset($t_response->search_metadata->max_id) ){
-								echo "<input type='hidden' value='" . $t_response->search_metadata->max_id . "' id='max_id_hidden' />";
+							if( isset($t_response->search_metadata) && isset($t_response->search_metadata->next_results) ){
+								echo "<input type='hidden' value='" . $t_response->search_metadata->next_results . "' id='next_results_hidden' />";
 							}
 
 						}
