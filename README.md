@@ -1,6 +1,6 @@
 # Twitter Custom Client
 
-A simple Twitter API client that fetches and displays tweets that<br>
+A custom Twitter API client that fetches and displays tweets that<br>
 * have been retweeted at least once and<br>
 * contain the hashtag `#custserv`<br>
 
